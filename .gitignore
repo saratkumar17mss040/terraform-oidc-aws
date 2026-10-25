@@ -24,3 +24,5 @@ terraform.rc
 .idea/
 .DS_Store
 Thumbs.db
+
+screenshots/
