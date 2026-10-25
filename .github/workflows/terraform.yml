@@ -1,0 +1,35 @@
+name: Terraform
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      TF_VAR_bucket_name: ${{ vars.S3_BUCKET_NAME }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ap-south-1
+      - name: Initialize, format, validate, and plan
+        run: |
+          terraform init
+          terraform fmt -check -recursive
+          terraform validate
+          terraform plan -out=tfplan
+      - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        name: Apply Terraform plan
+        run: terraform apply -auto-approve tfplan

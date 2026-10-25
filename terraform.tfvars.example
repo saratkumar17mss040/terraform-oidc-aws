@@ -1,0 +1,2 @@
+# Replace with a globally unique bucket name before applying.
+bucket_name = "replace-with-a-globally-unique-name"

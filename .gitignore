@@ -1,0 +1,26 @@
+# Terraform local state and working data
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.plan
+crash.log
+crash.*.log
+
+# Variable files and local overrides
+*.tfvars
+*.tfvars.json
+*_override.tf
+*_override.tf.json
+override.tf
+override.tf.json
+
+# Terraform CLI configuration
+.terraformrc
+terraform.rc
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
