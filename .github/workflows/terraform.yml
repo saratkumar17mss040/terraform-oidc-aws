@@ -4,6 +4,7 @@ on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -30,6 +31,6 @@ jobs:
           terraform fmt -check -recursive
           terraform validate
           terraform plan -out=tfplan
-      - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         name: Apply Terraform plan
         run: terraform apply -auto-approve tfplan
